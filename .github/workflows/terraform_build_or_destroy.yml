@@ -1,0 +1,61 @@
+name: Build or destroy infrastructure
+
+on:
+  workflow_dispatch: 
+    inputs:
+      action_type:
+        description: "Type of action you want to take('build' or 'destroy')"
+        required: true
+
+env: 
+    AWS REGION:  ap-southest-2
+    IAm ROLE: "arn:aws:iam::252874068638:role/GitHubAction-AssumeRoleWithAction"
+permissions: 
+    id-token: write
+    contents: read
+
+
+jobs:
+    build: 
+        name: "build"
+        runs-on: ubuntu-latest
+        if: inputs.action_type == 'build'
+
+      #  run:
+        #   working-directory: "."
+        steps:
+            - uses: actions/checkout@v3
+            - uses: hashicorp/setup-terraform@v2
+        
+
+            - name: configure aws credentials
+              uses: aws-action/configure-aws-credentials@master #import a library
+              with: 
+                role-to-assume: ${{ env.IAM_role}}
+                aws-region: ${{ env.AWS_REGION }}
+              
+            - name: Terraform fmt
+              id: fmt
+              run: terraform fmt -check
+              continue-on-error: true
+            
+            - name: Terraform Init
+              id: init
+              run: terraform init
+            
+            - name: Terraform Validate
+              id: validate
+              run: terraform validate -no-color
+            
+            - name: Terraform Plan
+              id: plan
+              run: terraform plan -no-color
+              continue-on-error: true
+
+            - name: Terraform Apply
+              id: appky
+              run: terraform apply-all
+              continue-on-error: false
+
+      
+
