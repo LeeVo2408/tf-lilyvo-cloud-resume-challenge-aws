@@ -8,8 +8,8 @@ on:
         required: true
 
 env: 
-    AWS REGION:  ap-southest-2
-    IAm ROLE: "arn:aws:iam::252874068638:role/GitHubAction-AssumeRoleWithAction"
+    AWS_REGION:  ap-southest-2
+    IAM_role: "arn:aws:iam::252874068638:role/GitHubAction-AssumeRoleWithAction"
 permissions: 
     id-token: write
     contents: read
