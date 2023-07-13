@@ -54,7 +54,7 @@ jobs:
 
             - name: Terraform Apply
               id: appky
-              run: terraform apply-all
+              run: terraform apply -auto-approve
               continue-on-error: false
 
       

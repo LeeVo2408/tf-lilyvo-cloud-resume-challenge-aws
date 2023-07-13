@@ -1,4 +1,4 @@
 resource "aws_s3_bucket" "b"{
-    bucket = "my -tf-test-bucket"
+    bucket = "tf-aws-lilyvo-cloud-resume-challenge"
     acl = "private"
     }
