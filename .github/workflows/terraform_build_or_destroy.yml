@@ -24,16 +24,15 @@ jobs:
       #  run:
         #   working-directory: "."
         steps:
-            - uses: actions/checkout@v3
-            - uses: hashicorp/setup-terraform@v2
-        
-
             - name: configure aws credentials
               uses: aws-actions/configure-aws-credentials@master #import a library
               with: 
                 role-to-assume: ${{ env.IAM_role}}
                 aws-region: ${{ env.AWS_REGION }}
               
+            - uses: actions/checkout@v3
+            - uses: hashicorp/setup-terraform@v2
+        
             - name: Terraform fmt
               id: fmt
               run: terraform fmt -check
