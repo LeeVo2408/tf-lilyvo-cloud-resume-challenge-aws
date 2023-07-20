@@ -28,9 +28,13 @@ resource "aws_s3_bucket_public_access_block" "cloud_resume_site_bucket" {
 #tfsec:ignore:aws-s3-encryption-customer-key 
 resource "aws_s3_bucket" "cloud_resume_logging_bucket" {
   bucket = "tf-aws-lilyvo-cloud-resume-challenge-logging"
+}
 
-  versioning {
-    enabled = true
+resource "aws_s3_bucket_versioning" "cloud_resume_logging_bucket" {
+  bucket = aws_s3_bucketc.loud_resume_logging_bucket.id
+
+  versioning_configuration { 
+    status = "Enabled"
   }
 }
 
@@ -55,7 +59,13 @@ resource "aws_s3_bucket_public_access_block" "cloud_resume_logging_bucket" {
   restrict_public_buckets = true
 }
 
+resource "aws_s3_bucket_ownership_control" "cloud_resume_logging_bucket" {
+  bucket = aws_s3_bucket.cloud_resume_logging_bucket.id
 
+  rule {
+    object_ownership = "ObjectWriter"
+  }
+}
 resource "aws_s3_bucket_acl" "cloud_resume_logging_bucket" {
   bucket = aws_s3_bucket.cloud_resume_logging_bucket.id
   acl    = "log-delivery-write"
