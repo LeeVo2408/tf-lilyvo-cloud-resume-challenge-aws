@@ -5,10 +5,11 @@ resource "aws_s3_bucket" "cloud_resume_site_bucket" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "cloud_resume_site_bucket" {
-  bucket = aws_s3_bucket.cloud_resume_site_bucket.bucket
+  bucket = aws_s3_bucket.cloud_resume_site_bucket.id
 
   rule {
     bucket_key_enabled = true
+
     apply_server_side_encryption_by_default {
         sse_algorithm = "AES256"
      }
