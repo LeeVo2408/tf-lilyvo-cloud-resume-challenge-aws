@@ -75,5 +75,5 @@ resource "aws_s3_bucket_logging" "cloud_resume_logging_bucket" {
   bucket = aws_s3_bucket.cloud_resume_site_bucket.id
 
   target_bucket = aws_s3_bucket.cloud_resume_logging_bucket.id
-  target_p
+  target_prefix = "log/"
 }
