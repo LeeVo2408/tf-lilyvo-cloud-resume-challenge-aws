@@ -37,7 +37,7 @@ resource "aws_s3_bucket" "cloud_resume_logging_bucket" {
 
   server_side_encryption_configuration {
     rule {
-      bucket_key_enable = true
+      bucket_key_enabled = true
 
       apply_server_side_encryption_by_default {
         sse_algorithm = "AES256"
