@@ -2,10 +2,6 @@
 #tfsec:ignore:aws-s3-encryption-customer-key 
 resource "aws_s3_bucket" "cloud_resume_site_bucket" {
   bucket = "tf-aws-lilyvo-cloud-resume-challenge-site"
-
-  logging {
-    target_bucket = aws_s3_bucket.cloud_resume_logging_bucket.id
-  }
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "cloud_resume_site_bucket" {
@@ -43,7 +39,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "cloud_resume_logg
 
   rule {
     bucket_key_enabled = true
-    
+
     apply_server_side_encryption_by_default {
         sse_algorithm = "AES256"
      }
@@ -59,3 +55,15 @@ resource "aws_s3_bucket_public_access_block" "cloud_resume_logging_bucket" {
   restrict_public_buckets = true
 }
 
+
+resource "aws_s3_bucket_acl" "cloud_resume_logging_bucket" {
+  bucket = aws_s3_bucket.cloud_resume_logging_bucket.id
+  acl    = "log-delivery-write"
+}
+
+resource "aws_s3_bucket_logging" "cloud_resume_logging_bucket" {
+  bucket = aws_s3_bucket.cloud_resume_site_bucket.id
+
+  target_bucket = aws_s3_bucket.cloud_resume_logging_bucket.id
+  target_p
+}
