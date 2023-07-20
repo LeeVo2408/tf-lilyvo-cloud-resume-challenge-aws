@@ -29,7 +29,7 @@ resource "aws_s3_bucket_public_access_block" "cloud_resume_site_bucket" {
 #tfsec:ignore:aws-s3-enable-bucket-logging
 #tfsec:ignore:aws-s3-encryption-customer-key 
 resource "aws_s3_bucket" "cloud_resume_logging_bucket" {
-  bucket = "tf-aws-lilyvo-cloud-resume-challenge"
+  bucket =  aws_s3_bucket.cloud_resume_logging_bucket.id
 
   versioning {
     enabled = true
