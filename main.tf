@@ -31,7 +31,7 @@ resource "aws_s3_bucket" "cloud_resume_logging_bucket" {
 }
 
 resource "aws_s3_bucket_versioning" "cloud_resume_logging_bucket" {
-  bucket = aws_s3_bucketc.cloud_resume_logging_bucket.id
+  bucket = aws_s3_bucket.cloud_resume_logging_bucket.id
 
   versioning_configuration { 
     status = "Enabled"
