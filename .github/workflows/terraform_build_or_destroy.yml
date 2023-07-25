@@ -9,7 +9,6 @@ on:
         environment_type:
             description: "Type of environment you want to act on ('nonprod' or 'prod')"
             required: true
-  
 
 env: 
     AWS_REGION: ap-southeast-2
@@ -24,6 +23,10 @@ jobs:
         runs-on: ubuntu-latest
         if: inputs.action_type == 'build'
         
+        defaults:
+          run:
+            working-directory: "${{ inputs.environment_type }}/"
+
         steps:
             - name: configure aws credentials
               uses: aws-actions/configure-aws-credentials@master
@@ -33,11 +36,6 @@ jobs:
 
             - uses: actions/checkout@v3
             - uses: hashicorp/setup-terraform@v2
-
-            - name: Terraform fmt
-              id: fmt
-              run: terraform fmt -check
-              continue-on-error: true
 
             - name: Terraform Init
               id: init
@@ -51,4 +49,37 @@ jobs:
             - name: Terraform Apply
               id: apply
               run: terraform apply -auto-approve
+              continue-on-error: false
+
+    destroy: 
+        name: "destroy"
+        runs-on: ubuntu-latest
+        if: inputs.action_type == 'destroy'
+        
+        defaults:
+          run:
+            working-directory: "${{ inputs.environment_type }}/"
+
+        steps:
+            - name: configure aws credentials
+              uses: aws-actions/configure-aws-credentials@master
+              with:
+                role-to-assume: ${{ env.IAM_ROLE }}
+                aws-region: ${{ env.AWS_REGION }}
+
+            - uses: actions/checkout@v3
+            - uses: hashicorp/setup-terraform@v2
+
+            - name: Terraform Init
+              id: init
+              run: terraform init
+
+            - name: Terraform Plan
+              id: plan
+              run: terraform plan
+              continue-on-error: false
+
+            - name: Terraform Destroy
+              id: destroy
+              run: terraform destroy -auto-approve
               continue-on-error: false
