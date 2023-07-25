@@ -1,5 +1,13 @@
 provider "aws" {
   region = "ap-southeast-2"
+
+ default_tags {
+   tags = {
+     Environment = "nonprod"
+     Managed_by       = "https://github.com/LeeVo2408/tf-lilyvo-cloud-resume-challenge-aws"
+     Project     = "Cloud Resume Challenge"
+   }
+ }
 }
 
 terraform {
