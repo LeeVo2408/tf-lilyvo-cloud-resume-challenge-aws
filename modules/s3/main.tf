@@ -25,6 +25,28 @@ resource "aws_s3_bucket_public_access_block" "cloud_resume_site_bucket" {
   restrict_public_buckets = true
 }
 
+resource "aws_s3_bucket_website_configuration" "cloud_resume_site_bucket" {
+  bucket = aws_s3_bucket.cloud_resume_site_bucket.id
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  error_document {
+    key = "error.html"
+  }
+
+  routing_rule {
+    condition {
+      key_prefix_equals = "docs/"
+    }
+    redirect {
+      replace_key_prefix_with = "documents/"
+    }
+  }
+}
+
+
 resource "aws_s3_object" "index" {
   bucket = aws_s3_bucket.cloud_resume_site_bucket.id
   key    = "index.html"
