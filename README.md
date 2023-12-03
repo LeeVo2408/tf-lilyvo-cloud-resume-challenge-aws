@@ -1,3 +1,3 @@
 # tf-lilyvo-cloud-resume-challenge-aws
 
-HELLO WORLD 
+This Repo is for AWS cloud resume challenge
