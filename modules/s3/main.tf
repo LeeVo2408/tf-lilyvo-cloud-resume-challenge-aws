@@ -1,7 +1,7 @@
 #tfsec:ignore:aws-s3-enable-versioning
 #tfsec:ignore:aws-s3-encryption-customer-key
 resource "aws_s3_bucket" "cloud_resume_site_bucket" {
-  bucket = "tf-aws-mgrassi-cloud-resume-challenge-${var.environment}-site"
+  bucket = "tf-aws-lilyvo-cloud-resume-challenge-${var.environment}-site"
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "cloud_resume_site_bucket" {
@@ -44,7 +44,7 @@ resource "aws_s3_object" "error" {
 #tfsec:ignore:aws-s3-enable-bucket-logging
 #tfsec:ignore:aws-s3-encryption-customer-key
 resource "aws_s3_bucket" "cloud_resume_logging_bucket" {
-  bucket = "tf-aws-mgrassi-cloud-resume-challenge-${var.environment}-logging"
+  bucket = "tf-aws-lilyvo-cloud-resume-challenge-${var.environment}-logging"
 }
 
 resource "aws_s3_bucket_versioning" "cloud_resume_logging_bucket" {

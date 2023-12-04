@@ -4,7 +4,7 @@ provider "aws" {
   default_tags {
     tags = {
       Environment = "non-Prod"
-      Managed_by  = "https://github.com/mgrassi12/tf-aws-mgrassi-cloud-resume-challenge/"
+      Managed_by  = "https://github.com/lilyvo12/tf-aws-lilyvo-cloud-resume-challenge/"
       Project = "AWS Cloud Resume Challenge"
     }
   }
@@ -21,7 +21,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket  = "tf-aws-mgrassi-cloud-resume-challenge-prod.state"
+    bucket  = "tf-aws-lilyvo-cloud-resume-challenge-prod.state"
     key     = "terraform.tfstate"
     region  = "ap-southeast-2"
     encrypt = true
