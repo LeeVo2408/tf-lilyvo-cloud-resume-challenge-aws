@@ -22,7 +22,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket  = "tf-aws-lilyvo-cloud-resume-challenge-state-buclet"
+    bucket  = "tf-aws-lilyvo-cloud-resume-challenge-state-bucket"
     key     = "terraform.tfstate"
     region  = "ap-southeast-2"
     encrypt = true
