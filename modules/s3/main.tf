@@ -41,11 +41,6 @@ resource "aws_s3_object" "error" {
   content_type = "text/html"
 }
 
-resource "aws_s3_bucket_policy" "cloud_resume_site_bucket" {
-  bucket = aws_s3_bucket.cloud_resume_site_bucket.id
-  policy = data.aws_iam_policy_document.cloud_resume_site_bucket.json
-}
-
 #tfsec:ignore:aws-s3-enable-bucket-logging
 #tfsec:ignore:aws-s3-encryption-customer-key
 resource "aws_s3_bucket" "cloud_resume_logging_bucket" {
