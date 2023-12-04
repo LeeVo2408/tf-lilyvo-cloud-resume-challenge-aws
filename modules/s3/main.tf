@@ -86,6 +86,10 @@ resource "aws_s3_bucket_public_access_block" "cloud_resume_logging_bucket" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+resource "aws_s3_bucket_acl" "cloud_resume_logging_bucket" {
+  bucket = aws_s3_bucket.cloud_resume_logging_bucket.id
+  acl    = "log-delivery-write"
+}
 
 resource "aws_s3_bucket_ownership_controls" "cloud_resume_logging_bucket" {
   bucket = aws_s3_bucket.cloud_resume_logging_bucket.id
@@ -95,10 +99,7 @@ resource "aws_s3_bucket_ownership_controls" "cloud_resume_logging_bucket" {
   }
 }
 
-resource "aws_s3_bucket_acl" "cloud_resume_logging_bucket" {
-  bucket = aws_s3_bucket.cloud_resume_logging_bucket.id
-  acl    = "log-delivery-write"
-}
+
 
 resource "aws_s3_bucket_logging" "cloud_resume_logging_bucket" {
   bucket = aws_s3_bucket.cloud_resume_site_bucket.id
