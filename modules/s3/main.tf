@@ -39,6 +39,7 @@ resource "aws_s3_object" "error" {
   key    = "error.html"
   source = "src/error.html"
   etag = filemd5("src/error.html")
+  content_type = "text/html"
 }
 
 resource "aws_s3_bucket_website_configuration" "cloud_resume_site_bucket" {
