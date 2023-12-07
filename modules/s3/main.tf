@@ -42,6 +42,12 @@ resource "aws_s3_object" "error" {
   content_type = "text/html"
 }
 
+
+resource "aws_cloudfront_origin_access_identity" "cloud_resume_site_bucket" {
+  comment = "Used for the cloud_resume_site_bucket."
+}
+
+
 resource "aws_s3_bucket_website_configuration" "cloud_resume_site_bucket" {
   bucket = aws_s3_bucket.cloud_resume_site_bucket.id
 
@@ -58,30 +64,70 @@ resource "aws_s3_bucket_website_configuration" "cloud_resume_site_bucket" {
 #   policy = data.aws_iam_policy_document.cloud_resume_site_bucket.json
 # }
 
-# data "aws_iam_policy_document" "cloud_resume_site_bucket" {
-#   statement {
-#     principals {
-#       type        = "Service"
-#       identifiers = ["cloudfront.amazonaws.com"]
-#     }
+resource "aws_cloudfront_origin_access_identity" "cloud_resume_site_bucket" {
+  comment = "Used for the cloud_resume_site_bucket."
+}
 
-#     actions = [
-#       "s3:GetObject",
-#       #"s3:ListBucket",
-#     ]
+resource "aws_cloudfront_distribution" "cloud_resume_site_bucket" {
+  origin {
+    domain_name = aws_s3_bucket.cloud_resume_site_bucket.bucket_regional_domain_name
+    origin_id   = "cloudResumeSiteOrigin"
 
-#     resources = [
-#       aws_s3_bucket.cloud_resume_site_bucket.arn,
-#       "${aws_s3_bucket.cloud_resume_site_bucket.arn}/*",
-#     ]
-#     condition {
-#       test = "ForAnyValue:StringLike"
-#       variable = "AWS: SourceArn"
-#       values = ["arn:aws:cloudfront::252874068638:distribution/*"]
-#     }
-#   }
-# }
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.cloud_resume_site_bucket.cloudfront_access_identity_path
+    }
+  }
 
+  enabled = true
+  is_ipv6_enabled = true
+  default_root_object = "index.html"
+
+  logging_config {
+    include_cookies = false
+    bucket          = aws_s3_bucket.cloud_resume_logging_bucket.bucket_domain_name
+    prefix          = "cloud-resume-cf-logs"
+  }
+
+  default_cache_behavior {
+    # Using the CachingDisabled managed policy during active development of this page. This should be changed upon completion.
+    cache_policy_id  = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
+    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "cloudResumeSiteOrigin"
+    viewer_protocol_policy = "redirect-to-https"
+  }
+
+  price_class = "PriceClass_100"
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "whitelist"
+      locations        = ["AU","US"]
+    }
+  }
+
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
+}
+// update the bucket yo allow cloudfront tho access it 
+
+data "aws_iam_policy_document" "cloud_resume_site_bucket" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.cloud_resume_site_bucket.arn}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.cloud_resume_site_bucket.iam_arn]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "cloud_resume_site_bucket" {
+  bucket = aws_s3_bucket.cloud_resume_site_bucket.id
+  policy = data.aws_iam_policy_document.cloud_resume_site_bucket.json
+}
 
 #tfsec:ignore:aws-s3-enable-bucket-logging
 #tfsec:ignore:aws-s3-encryption-customer-key
