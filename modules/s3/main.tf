@@ -48,22 +48,6 @@ resource "aws_cloudfront_origin_access_identity" "cloud_resume_site_bucket" {
 }
 
 
-# resource "aws_s3_bucket_website_configuration" "cloud_resume_site_bucket" {
-#   bucket = aws_s3_bucket.cloud_resume_site_bucket.id
-
-#   index_document {
-#     suffix = "index.html"
-#   }
-
-#   error_document {
-#     key = "error.html"
-#   }
-# }
-resource "aws_s3_bucket_policy" "cloud_resume_site_bucket" {
-  bucket = aws_s3_bucket.cloud_resume_site_bucket.id
-  policy = data.aws_iam_policy_document.cloud_resume_site_bucket.json
-}
-
 resource "aws_cloudfront_origin_access_identity" "cloud_resume_site_bucket" {
   comment = "Used for the cloud_resume_site_bucket."
 }
