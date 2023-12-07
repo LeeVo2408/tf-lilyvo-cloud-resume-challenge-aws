@@ -48,10 +48,6 @@ resource "aws_cloudfront_origin_access_identity" "cloud_resume_site_bucket" {
 }
 
 
-resource "aws_cloudfront_origin_access_identity" "cloud_resume_site_bucket" {
-  comment = "Used for the cloud_resume_site_bucket."
-}
-
 resource "aws_cloudfront_distribution" "cloud_resume_site_bucket" {
   origin {
     domain_name = aws_s3_bucket.cloud_resume_site_bucket.bucket_regional_domain_name
