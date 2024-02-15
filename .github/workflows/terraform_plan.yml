@@ -22,7 +22,7 @@ jobs:
           id: identify_path
           run: | 
             if [[ "${{ github.base_ref }}" != "main" ]]; then
-            echo "working_dir_path=nonprod" >> $GITHUB_OUTPUT
+              echo "working_dir_path=nonprod" >> $GITHUB_OUTPUT
             fi
             if [[ "${{ github.base_ref }}" == "main" ]]; then
               echo "working_dir_path=prod" >> $GITHUB_OUTPUT
