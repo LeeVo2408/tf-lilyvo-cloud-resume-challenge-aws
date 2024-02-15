@@ -25,7 +25,7 @@ jobs:
               echo "working_dir_path=nonprod" >> $GITHUB_OUTPUT
             fi
             if: [[ "${{ github.base_ref }}" == "main"]]; then
-            echo "tf_actions_working_dir=prod" >> $GITHUB_OUTPUT
+            echo "working_dir_path=prod" >> $GITHUB_OUTPUT
             fi
             #
 
