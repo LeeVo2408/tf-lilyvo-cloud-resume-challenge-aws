@@ -3,7 +3,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Environment = "non-Prod"
+      Environment = "Prod"
       Managed_by  = "https://github.com/lilyvo12/tf-aws-lilyvo-cloud-resume-challenge/"
       Project = "AWS Cloud Resume Challenge"
     }
