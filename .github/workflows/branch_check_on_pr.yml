@@ -1,6 +1,5 @@
 name: GitHub PR source & target status check 
 
-
 on: 
   pull request:
       branches: 
