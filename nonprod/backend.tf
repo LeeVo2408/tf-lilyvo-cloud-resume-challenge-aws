@@ -1,13 +1,13 @@
 provider "aws" {
   region = "ap-southeast-2"
 
- default_tags {
-   tags = {
-     Environment = "nonprod"
-     Managed_by       = "https://github.com/LeeVo2408/tf-lilyvo-cloud-resume-challenge-aws"
-     Project     = "Cloud Resume Challenge"
-   }
- }
+  default_tags {
+    tags = {
+      Environment = "Non-rod"
+      Managed_by  = "https://github.com/lilyvo12/tf-aws-lilyvo-cloud-resume-challenge/"
+      Project = "AWS Cloud Resume Challenge"
+    }
+  }
 }
 
 terraform {
@@ -22,7 +22,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket  = "tf-aws-lilyvo-cloud-resume-challenge-state-bucket"
+    bucket  = "tf-aws-lilyvo-cloud-resume-challenge-nonprod.state"
     key     = "terraform.tfstate"
     region  = "ap-southeast-2"
     encrypt = true
